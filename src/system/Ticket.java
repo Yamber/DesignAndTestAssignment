@@ -1,25 +1,23 @@
 package system;
 
 import system.customer.Customer;
+import system.plane.Place;
 
 public class Ticket {
 	
-	private int ticketNo;
+	private String ticketNo;
 	private double price;
 	private Airline air;
 	private Customer cust;
+	private TermsAndConditions tac;
+	private Flight flight;
+	private Place place;
 	
-	public Ticket(int ticketNo, double price){
-		
-		 this.ticketNo = ticketNo;
-		 this.price = price;
-	}
-
-	public int getTicketNo() {
+	public String getTicketNo() {
 		return ticketNo;
 	}
 
-	public void setTicketNo(int ticketNo) {
+	public void setTicketNo(String ticketNo) {
 		this.ticketNo = ticketNo;
 	}
 
@@ -46,5 +44,40 @@ public class Ticket {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+
+	public TermsAndConditions getTac() {
+		return tac;
+	}
+
+	public void setTac(TermsAndConditions tac) {
+		this.tac = tac;
+	}
+
+	public Flight getFlight() {
+		return flight;
+	}
+
+	public void setFlight(Flight flight) {
+		this.flight = flight;
+	}
+
+	public Place getPlace() {
+		return place;
+	}
+
+	public void setPlace(Place place) {
+		this.place = place;
+	}
+	
+	public boolean isCancellable(){
+		return tac.isCancellable();
+	}
+	
+	public void setDetail(Place place, Flight flight, TermsAndConditions tac){
+		setPlace(place);
+		setFlight(flight);
+		setTac(tac);
+	}
+	
 
 }

@@ -1,22 +1,19 @@
 package system.plane;
 
-public abstract class Seat extends Place {
+public class Seat extends Place {
+	private String SeatNumber;
 	
-	private int seatNo;
+	public Seat(){
+		super();
+	}
+
+	public String getSeatNumber() {
+		return SeatNumber;
+	}
+
+	public void setSeatNumber(String seatNumber) {
+		SeatNumber = seatNumber;
+	}
 	
-	public Seat (boolean vacant, int seatNo){
-		
-		super(vacant);
-		
-		this.seatNo = seatNo;
-	}
-
-	public int getSeatNo() {
-		return seatNo;
-	}
-
-	public void setSeatNo(int seatNo) {
-		this.seatNo = seatNo;
-	}
-
+	
 }

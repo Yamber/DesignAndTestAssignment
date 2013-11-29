@@ -1,18 +1,20 @@
 package system;
 
 import java.util.Calendar;
+import java.util.List;
 
 import system.plane.Plane;
 
 public class Flight {
 	
 	private String flightNo;
-	private Plane plane;
 	private String departLocation;
 	private String arriveLocation;
 	private Calendar departTime;
 	private Calendar arriveTime;
 	private double fare;
+	private Plane plane;
+	private List<Ticket> tickets;
 
 	public String getFlightNo() {
 		return flightNo;
@@ -20,6 +22,14 @@ public class Flight {
 
 	public void setFlightNo(String flightNo) {
 		this.flightNo = flightNo;
+	}
+
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
 	}
 
 	public Plane getPlane() {

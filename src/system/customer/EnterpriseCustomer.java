@@ -6,14 +6,6 @@ public class EnterpriseCustomer extends Customer {
 	private String businessName;
 	private double discountRate;
 
-	public EnterpriseCustomer(String name, String businessName, double discountRate) {
-		
-		super(name);
-		
-		this.businessName = businessName;
-		this.discountRate = discountRate;
-	}
-
 	public double getDiscountRate() {
 		return discountRate;
 	}
