@@ -6,6 +6,10 @@ public class EnterpriseCustomer extends Customer {
 	private String businessName;
 	private double discountRate;
 
+	public EnterpriseCustomer(String name) {
+		super(name);
+	}
+
 	public double getDiscountRate() {
 		return discountRate;
 	}

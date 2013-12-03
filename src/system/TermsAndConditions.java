@@ -2,10 +2,19 @@ package system;
 
 public class TermsAndConditions {
 	private boolean cancellable;
-	private float discountRate;
-	private float refoundRate;
+	private double discountRate;
+	private double refoundRate;
 	private double administrativeFee;
-	
+
+	public TermsAndConditions(boolean cancellable, double discountRate,
+			double refoundRate, double administrativeFee) {
+		super();
+		this.cancellable = cancellable;
+		this.discountRate = discountRate;
+		this.refoundRate = refoundRate;
+		this.administrativeFee = administrativeFee;
+	}
+
 	public double getAdministrativeFee() {
 		return administrativeFee;
 	}
@@ -22,19 +31,19 @@ public class TermsAndConditions {
 		this.cancellable = cancellable;
 	}
 
-	public float getDiscountRate() {
+	public double getDiscountRate() {
 		return discountRate;
 	}
 
-	public void setDiscountRate(float discountRate) {
+	public void setDiscountRate(double discountRate) {
 		this.discountRate = discountRate;
 	}
 
-	public float getRefoundRate() {
+	public double getRefoundRate() {
 		return refoundRate;
 	}
 
-	public void setRefoundRate(float refoundRate) {
+	public void setRefoundRate(double refoundRate) {
 		this.refoundRate = refoundRate;
 	}
 	

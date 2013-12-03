@@ -11,19 +11,10 @@ public class Airline {
 	
 	private String companyName;
 	private String location;
-	private Customer cust;
 	private List<Ticket> tickets;
 	private List<TermsAndConditions> terms;
 	private List<Flight> flights;
 	private List<Customer> customers;
-
-	public Customer getCust() {
-		return cust;
-	}
-
-	public void setCust(Customer cust) {
-		this.cust = cust;
-	}
 
 	public List<Ticket> getTickets() {
 		return tickets;
@@ -123,6 +114,7 @@ public class Airline {
 	private void cancelTicket(String ticketNumber){
 		for(Ticket ticket: tickets){
 			if(ticket.getTicketNo() == ticketNumber){
+				ticket.getPlace().cancelCheckIn();
 				ticket.getFlight().getTickets().remove(ticket);
 				tickets.remove(ticket);
 				break;

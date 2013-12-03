@@ -5,14 +5,11 @@ import java.util.LinkedList;
 public class Plane {
 	
 	private int planeNo;
-	private String destination;
 	private LinkedList<Space> spaces;
 	
-	public Plane(int planeNo, String destination){
-		
+	public Plane(int planeNo){
 		this.setPlaneNo(planeNo);
-		this.setDestination(destination);
-		setSpaces(new LinkedList<Space>());
+		spaces = new LinkedList<Space>();
 	}
 
 	public int getPlaneNo() {
@@ -21,14 +18,6 @@ public class Plane {
 
 	public void setPlaneNo(int planeNo) {
 		this.planeNo = planeNo;
-	}
-
-	public String getDestination() {
-		return destination;
-	}
-
-	public void setDestination(String destination) {
-		this.destination = destination;
 	}
 
 	public LinkedList<Space> getSpaces() {
