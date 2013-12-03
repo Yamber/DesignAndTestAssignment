@@ -8,6 +8,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -24,10 +25,15 @@ import javax.swing.SpinnerNumberModel;
 
 import system.Airline;
 import system.AirlineBuilder;
+import system.Flight;
 import system.customer.Customer;
 import system.customer.PersonalCustomer;
 
 import com.toedter.calendar.JDateChooser;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.ListSelectionModel;
 
 public class CustomerGui extends JFrame {
 
@@ -36,12 +42,12 @@ public class CustomerGui extends JFrame {
 	private JDateChooser jdcDeparting;
 	private JDateChooser jdcReturning;
 	private JSpinner sprDepart;
-	private JSpinner sprReturn;
+	private JSpinner sprDesti;
 	private JSpinner sprClass;
 	private JSpinner sprNumTicket;
-	private JTextField textField;
 	private Customer customer;
 	private Airline airline;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -132,7 +138,7 @@ public class CustomerGui extends JFrame {
 		JRadioButton rdbtnReturn = new JRadioButton("Return");
 		rdbtnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				sprReturn.setEnabled(true);
+				sprDesti.setEnabled(true);
 				jdcReturning.setEnabled(true);
 			}
 		});
@@ -145,7 +151,7 @@ public class CustomerGui extends JFrame {
 		JRadioButton rdbtnOneWay = new JRadioButton("One Way");
 		rdbtnOneWay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				sprReturn.setEnabled(false);
+				sprDesti.setEnabled(false);
 				jdcReturning.setEnabled(false);
 			}
 		});
@@ -165,11 +171,11 @@ public class CustomerGui extends JFrame {
 		lblTo.setBounds(273, 32, 20, 14);
 		contentPane.add(lblTo);
 		
-		sprReturn = new JSpinner();
-		sprReturn.setModel(new SpinnerListModel(new String[] {"DUB", "LON", "KIX", "WAT"}));
-		sprReturn.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
-		sprReturn.setBounds(303, 28, 100, 20);
-		contentPane.add(sprReturn);
+		sprDesti = new JSpinner();
+		sprDesti.setModel(new SpinnerListModel(new String[] {"DUB", "LON", "KIX", "WAT"}));
+		sprDesti.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		sprDesti.setBounds(303, 28, 100, 20);
+		contentPane.add(sprDesti);
 		
 		JLabel lblClass = new JLabel("Class");
 		lblClass.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 24));
@@ -193,26 +199,67 @@ public class CustomerGui extends JFrame {
 		sprNumTicket.setBounds(534, 106, 60, 24);
 		contentPane.add(sprNumTicket);
 		
-		JButton btnBook = new JButton("Book Now");
-		btnBook.addActionListener(new ActionListener() {
+		JButton btnSearch = new JButton("Search Flight");
+		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO search flight from Airline instance
+				searchFlight();
 			}
 		});
-		btnBook.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 24));
-		btnBook.setBounds(10, 139, 584, 41);
-		contentPane.add(btnBook);
+		btnSearch.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 24));
+		btnSearch.setBounds(10, 139, 584, 41);
+		contentPane.add(btnSearch);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 191, 584, 218);
+		scrollPane.setBounds(10, 191, 584, 161);
 		contentPane.add(scrollPane);
 		
-		textField = new JTextField();
-		scrollPane.setViewportView(textField);
-		textField.setColumns(10);
+		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setModel(new FlightTableModel());
+		scrollPane.setViewportView(table);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 605, 21);
 		contentPane.add(menuBar);
+		
+		JButton btnBook = new JButton("Book Selected Flight");
+		btnBook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int i = table.getSelectedRow();
+				if(i >= 0){
+					FlightTableModel ftm = (FlightTableModel) table.getModel();
+					Flight f = ftm.getFlight(i);
+					bookFlight(f);
+				}
+			}
+		});
+		btnBook.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 24));
+		btnBook.setBounds(10, 363, 584, 41);
+		contentPane.add(btnBook);
 	}
+	
+	private void searchFlight(){
+		List<Flight> flights = airline.searchFlights(
+				sprDepart.getValue().toString(), sprDesti.getValue().toString(), jdcDeparting.getCalendar(), 2);
+		FlightTableModel ftm = (FlightTableModel) table.getModel();
+		System.out.println("Flights");
+		for(int i = 0; i < ftm.getRowCount(); i++){
+			ftm.removeRow(0);
+		}
+		for(Flight f: flights){
+			ftm.addRow(new Object[]{f.getDepartLocation(), f.getDepartTime().getTime(),
+					f.getArriveLocation(), f.getArriveTime().getTime(), f.getFare()}, f);
+		}
+	}
+	
+	private void bookFlight(Flight f){
+		try {
+			airline.chooseFlight(f);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 }

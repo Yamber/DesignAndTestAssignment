@@ -80,4 +80,7 @@ public class Flight {
 		this.fare = fare;
 	}
 	
+	public String toString(){
+		return flightNo + departLocation + departTime + arriveLocation + arriveTime;
+	}
 }

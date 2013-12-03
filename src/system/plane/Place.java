@@ -2,10 +2,10 @@ package system.plane;
 
 public abstract class Place {
 	
-	private boolean vacant;
-	private boolean checkIn;
-	private double price;
-	private Plane plane;
+	protected boolean vacant;
+	protected boolean checkIn;
+	protected double price;
+	protected Plane plane;
 
 	public boolean isVacant() {
 		return vacant;

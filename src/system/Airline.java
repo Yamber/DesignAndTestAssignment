@@ -6,6 +6,7 @@ import java.util.List;
 
 import system.customer.Customer;
 import system.plane.Place;
+import system.plane.Space;
 
 public class Airline {
 	
@@ -74,13 +75,15 @@ public class Airline {
 		return null;
 	}
 	
-	private List<Flight> searchFlights(String departLocation, String arriveLocation, Calendar departTime){
+	public List<Flight> searchFlights(String departLocation, String arriveLocation, Calendar departTime, int diff){
+		System.out.println("Seaching flight: " + departLocation + arriveLocation + departTime);
 		List<Flight> list = new LinkedList<>();
 		for(Flight f: flights){
-			if(f.getDepartLocation() == departLocation && f.getArriveLocation() == arriveLocation 
+			if(f.getDepartLocation().equals(departLocation) && f.getArriveLocation().equals(arriveLocation) 
 					&& f.getDepartTime().get(Calendar.YEAR) == departTime.get(Calendar.YEAR)
-					&& f.getDepartTime().get(Calendar.DAY_OF_YEAR) == departTime.get(Calendar.DAY_OF_YEAR)){
+					&& Math.abs(f.getDepartTime().get(Calendar.DAY_OF_YEAR) - departTime.get(Calendar.DAY_OF_YEAR)) <= diff){
 				list.add(f);
+				System.out.println("hit: "+ f);
 			}
 		}
 		return list;
@@ -88,21 +91,21 @@ public class Airline {
 	
 	//TODO chooseFlight(Flight flight) //why return Ticket?
 	
-	private void storeTicket(Ticket ticket){
+	public void storeTicket(Ticket ticket){
 		tickets.add(ticket);
 		ticket.getFlight().getTickets().add(ticket);
 		//TODO how customer store ticket?
 	}
 
-	private double calculateFare(TermsAndConditions tac, Flight flight, Place place){
+	public double calculateFare(TermsAndConditions tac, Flight flight, Place place){
 		return tac.getDiscountRate() * (flight.getFare() + place.getPrice());
 	}
 
-	private double calculateCancellationFee(TermsAndConditions tac){
+	public double calculateCancellationFee(TermsAndConditions tac){
 		return tac.getAdministrativeFee();
 	}
 	
-	private Ticket issueTicket(Flight flight, Place place, TermsAndConditions tac){
+	public Ticket issueTicket(Flight flight, Place place, TermsAndConditions tac){
 		//TODO no constructor defined, need to define.
 		Ticket ticket = new Ticket();
 		ticket.setFlight(flight);
@@ -111,7 +114,7 @@ public class Airline {
 		return ticket;
 	}
 	
-	private void cancelTicket(String ticketNumber){
+	public void cancelTicket(String ticketNumber){
 		for(Ticket ticket: tickets){
 			if(ticket.getTicketNo() == ticketNumber){
 				ticket.getPlace().cancelCheckIn();
@@ -120,5 +123,14 @@ public class Airline {
 				break;
 			}
 		}
+	}
+	
+	public List<Space> chooseFlight(Flight flight) throws Exception{
+		int i = flights.indexOf(flight);
+		if (i >= 0){
+			Flight f = flights.get(i);
+			return f.getPlane().getSpaces();
+		}
+		throw new Exception("There is no such Flight");	
 	}
 }
