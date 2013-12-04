@@ -16,6 +16,20 @@ public class Flight {
 	private Plane plane;
 	private List<Ticket> tickets;
 
+	public Flight(String flightNo, String departLocation,
+			String arriveLocation, Calendar departTime, Calendar arriveTime,
+			double fare, Plane plane, List<Ticket> tickets) {
+		super();
+		this.flightNo = flightNo;
+		this.departLocation = departLocation;
+		this.arriveLocation = arriveLocation;
+		this.departTime = departTime;
+		this.arriveTime = arriveTime;
+		this.fare = fare;
+		this.plane = plane;
+		this.tickets = tickets;
+	}
+
 	public String getFlightNo() {
 		return flightNo;
 	}

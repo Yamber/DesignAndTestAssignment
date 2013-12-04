@@ -126,6 +126,7 @@ public class Airline {
 	
 	public List<Place> chooseFlight(Flight flight) throws Exception{
 		int i = flights.indexOf(flight);
+		System.out.println(i);
 		if (i >= 0){
 			Flight f = flights.get(i);
 			return f.getPlane().getPlaces();

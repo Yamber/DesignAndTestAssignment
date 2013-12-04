@@ -17,44 +17,36 @@ public class AirlineBuilder {
 		tacs.add(new TermsAndConditions(true, 0.0, 1.0, 0.0));
 		tacs.add(new TermsAndConditions(true, 0.4, 1.0, 500));
 		tacs.add(new TermsAndConditions(false, 0.6, 0.0, 0.0));
+		airline.setTerms(tacs);
 		//adding flights
 		List<Flight> flights = new LinkedList<>();
 		for(int i = 0; i < 700; i++){
-			Flight flight = new Flight();
 			//flight Number
-			flight.setFlightNo("WAA000" + (i%2 + 1));
+			String flightNo = "WAA000" + (i%2 + 1);
 			//depart & arrival Location & time
+			String departLocation;
+			Calendar d_cal = Calendar.getInstance();
+			Calendar a_cal = Calendar.getInstance();
+			String arriveLocation;
 			int year = (340+i <= 365)? 2013: 2014;
 			if(i%2 == 0){
-				flight.setDepartLocation("WAT");
-				flight.setArriveLocation("KIX");
-				Calendar d_cal = Calendar.getInstance();
+				departLocation = "WAT";
+				arriveLocation = "KIX";
 				d_cal.set(Calendar.DAY_OF_YEAR, ((339+i)%365)+1);
 				d_cal.set(Calendar.YEAR, year);
-				flight.setDepartTime(d_cal);
-				Calendar r_cal = Calendar.getInstance();
-				r_cal.set(Calendar.DAY_OF_YEAR, ((339+i)%365)+2);
-				r_cal.set(Calendar.YEAR, year);
-				flight.setArriveTime(r_cal);
+				a_cal.set(Calendar.DAY_OF_YEAR, ((339+i)%365)+2);
+				a_cal.set(Calendar.YEAR, year);
 			}else{
-				flight.setArriveLocation("WAT");
-				flight.setDepartLocation("KIX");
-				Calendar d_cal = Calendar.getInstance();
+				departLocation = "WAT";
+				arriveLocation = "KIX";
 				d_cal.set(Calendar.DAY_OF_YEAR, ((339+i)%365)+1);
 				d_cal.set(Calendar.YEAR, year);
-				flight.setDepartTime(d_cal);
-				Calendar r_cal = Calendar.getInstance();
-				r_cal.set(Calendar.DAY_OF_YEAR, ((339+i)%365)+1);
-				r_cal.set(Calendar.YEAR, year);
-				flight.setArriveTime(r_cal);
+				a_cal.set(Calendar.DAY_OF_YEAR, ((339+i)%365)+1);
+				a_cal.set(Calendar.YEAR, year);
 			}
-			//fare
-			flight.setFare(2000.00);
-			//TODO make plane
-			flight.setPlane(PlaneBuilder.SmallPlaneBuilder());
-			//set emptylist to tickets in Flight
-			flight.setTickets(new LinkedList<Ticket>());
 			//add to list
+			Flight flight = new Flight(flightNo, departLocation, arriveLocation,
+					d_cal, a_cal, 2000, PlaneBuilder.SmallPlaneBuilder(), new LinkedList<Ticket>());
 			flights.add(flight);
 			System.out.println(flight);
 		}

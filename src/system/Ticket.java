@@ -14,7 +14,6 @@ public class Ticket {
 	private Place place;
 	
 	
-	
 	public Ticket(double price, Airline air, Customer customer,
 			TermsAndConditions tac, Flight flight, Place place) {
 		super();
