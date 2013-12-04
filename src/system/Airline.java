@@ -105,12 +105,11 @@ public class Airline {
 		return tac.getAdministrativeFee();
 	}
 	
-	public Ticket issueTicket(Flight flight, Place place, TermsAndConditions tac){
+	public Ticket issueTicket(Flight flight, Place place, TermsAndConditions tac, Customer customer){
 		//TODO no constructor defined, need to define.
-		Ticket ticket = new Ticket();
-		ticket.setFlight(flight);
-		ticket.setPlace(place);
-		ticket.setTac(tac);
+		Ticket ticket = new Ticket(calculateFare(tac, flight, place), this, customer, tac, flight, place);
+		tickets.add(ticket);
+		customer.addTicket(ticket);
 		return ticket;
 	}
 	
@@ -125,11 +124,11 @@ public class Airline {
 		}
 	}
 	
-	public List<Space> chooseFlight(Flight flight) throws Exception{
+	public List<Place> chooseFlight(Flight flight) throws Exception{
 		int i = flights.indexOf(flight);
 		if (i >= 0){
 			Flight f = flights.get(i);
-			return f.getPlane().getSpaces();
+			return f.getPlane().getPlaces();
 		}
 		throw new Exception("There is no such Flight");	
 	}

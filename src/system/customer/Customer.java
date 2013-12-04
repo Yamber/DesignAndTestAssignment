@@ -8,11 +8,11 @@ import system.Ticket;
 public abstract class Customer {
 	
 	private String name;
-	private List<Ticket> ticket;
+	private List<Ticket> tickets;
 	
 	public Customer(String name) {
 		this.name = name;
-		ticket = new LinkedList<>();
+		tickets = new LinkedList<>();
 	}
 	public String getName() {
 		return name;
@@ -21,10 +21,18 @@ public abstract class Customer {
 		this.name = name;
 	}
 	public List<Ticket> getTick() {
-		return ticket;
+		return tickets;
 	}
-	public void setTick(List<Ticket> ticket) {
-		this.ticket = ticket;
+	public void setTick(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
+	
+	public void addTicket(Ticket ticket){
+		tickets.add(ticket);
+	}
+	
+	public Ticket getTicket(int index){
+		return tickets.get(index);
 	}
 
 }

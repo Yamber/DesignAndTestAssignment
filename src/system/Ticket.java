@@ -8,11 +8,24 @@ public class Ticket {
 	private String ticketNo;
 	private double price;
 	private Airline air;
-	private Customer cust;
+	private Customer customer;
 	private TermsAndConditions tac;
 	private Flight flight;
 	private Place place;
 	
+	
+	
+	public Ticket(double price, Airline air, Customer customer,
+			TermsAndConditions tac, Flight flight, Place place) {
+		super();
+		this.price = price;
+		this.air = air;
+		this.customer = customer;
+		this.tac = tac;
+		this.flight = flight;
+		this.place = place;
+	}
+
 	public String getTicketNo() {
 		return ticketNo;
 	}
@@ -30,11 +43,11 @@ public class Ticket {
 	}
 
 	public Customer getCust() {
-		return cust;
+		return customer;
 	}
 
-	public void setCust(Customer cust) {
-		this.cust = cust;
+	public void setCust(Customer customer) {
+		this.customer = customer;
 	}
 
 	public double getPrice() {

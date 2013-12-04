@@ -19,21 +19,22 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerNumberModel;
 
 import system.Airline;
 import system.AirlineBuilder;
 import system.Flight;
+import system.TermsAndConditions;
+import system.Ticket;
 import system.customer.Customer;
 import system.customer.PersonalCustomer;
+import system.plane.Place;
+import system.plane.Space;
 
 import com.toedter.calendar.JDateChooser;
-
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.ListSelectionModel;
 
 public class CustomerGui extends JFrame {
 
@@ -254,11 +255,27 @@ public class CustomerGui extends JFrame {
 	
 	private void bookFlight(Flight f){
 		try {
-			airline.chooseFlight(f);
+			List<Place> spaces = airline.chooseFlight(f);
+			Place place = chooseSeat(spaces);
+			// TODO choose tac
+			TermsAndConditions tac = chooseTac(airline.getTerms());
+			double price = airline.calculateFare(tac, f, place);
+			// TODO payment
+			Ticket ticket = airline.issueTicket(f, place, tac, customer);
+		} catch (CancelOperationException e) {
+			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private Place chooseSeat(List<Place> places){
+		return places.get(0);
+	}
+	
+	private TermsAndConditions chooseTac(List<TermsAndConditions> tacs){
+		return tacs.get(0);
 	}
 	
 	

@@ -81,6 +81,6 @@ public class Flight {
 	}
 	
 	public String toString(){
-		return flightNo + departLocation + departTime + arriveLocation + arriveTime;
+		return flightNo + departLocation + departTime.getTime() + arriveLocation + arriveTime.getTime();
 	}
 }

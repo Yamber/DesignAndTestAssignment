@@ -6,11 +6,11 @@ import java.util.List;
 public class Plane {
 	
 	private int planeNo;
-	private List<Space> spaces;
+	private List<Place> places;
 	
 	public Plane(int planeNo){
 		this.setPlaneNo(planeNo);
-		spaces = new LinkedList<>();
+		places = new LinkedList<>();
 	}
 
 	public int getPlaneNo() {
@@ -20,21 +20,21 @@ public class Plane {
 	public void setPlaneNo(int planeNo) {
 		this.planeNo = planeNo;
 	}
-
-	public List<Space> getSpaces() {
-		return spaces;
+	
+	public List<Place> getPlaces() {
+		return places;
 	}
 
-	public void setSpaces(List<Space> spaces) {
-		this.spaces = spaces;
+	public void setPlaces(List<Place> places) {
+		this.places = places;
+	}
+
+	public void addPlace(Place place){
+		places.add(place);
 	}
 	
-	public void addSpace(Space space){
-		spaces.add(space);
-	}
-	
-	public Space getSpace(int i){
-		return spaces.get(i);
+	public Place getSpace(int i){
+		return places.get(i);
 	}
 
 }

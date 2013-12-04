@@ -36,7 +36,6 @@ public class AirlineBuilder {
 				r_cal.set(Calendar.DAY_OF_YEAR, ((339+i)%365)+2);
 				r_cal.set(Calendar.YEAR, year);
 				flight.setArriveTime(r_cal);
-				flight.setDepartTime(r_cal);				
 			}else{
 				flight.setArriveLocation("WAT");
 				flight.setDepartLocation("KIX");
@@ -48,7 +47,6 @@ public class AirlineBuilder {
 				r_cal.set(Calendar.DAY_OF_YEAR, ((339+i)%365)+1);
 				r_cal.set(Calendar.YEAR, year);
 				flight.setArriveTime(r_cal);
-				flight.setDepartTime(r_cal);				
 			}
 			//fare
 			flight.setFare(2000.00);
