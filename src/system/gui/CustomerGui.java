@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -32,7 +33,6 @@ import system.Ticket;
 import system.customer.Customer;
 import system.customer.PersonalCustomer;
 import system.plane.Place;
-import system.plane.Space;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -259,11 +259,18 @@ public class CustomerGui extends JFrame {
 			Place place = chooseSeat(spaces);
 			// TODO choose tac
 			TermsAndConditions tac = chooseTac(airline.getTerms());
-			double price = airline.calculateFare(tac, f, place);
 			// TODO payment
-			Ticket ticket = airline.issueTicket(f, place, tac, customer);
+			double price = airline.calculateFare(tac, f, place);
+			if(payment(price)){
+				Ticket ticket = airline.issueTicket(f, place, tac, customer);
+			} else {
+				throw new CancelOperationException("Payment wasn't verified.");
+			}
 		} catch (CancelOperationException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+				    e.getMessage(),
+				    "Booking Canceled",
+				    JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -276,6 +283,10 @@ public class CustomerGui extends JFrame {
 	
 	private TermsAndConditions chooseTac(List<TermsAndConditions> tacs){
 		return tacs.get(0);
+	}
+	
+	private boolean payment(double price){
+		return true;
 	}
 	
 	

@@ -6,4 +6,7 @@ public class CancelOperationException extends Exception {
 		super("Operation was canceled");
 	}
 
+	public CancelOperationException(String message) {
+		super(message);
+	}
 }
