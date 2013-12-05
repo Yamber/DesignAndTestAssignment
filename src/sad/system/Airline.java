@@ -98,7 +98,18 @@ public class Airline {
 	}
 
 	public double calculateFare(TermsAndConditions tac, Flight flight, Place place){
+<<<<<<< HEAD
 		return flight.getFare() - tac.getDiscountRate() * (flight.getFare() + place.getPrice());
+=======
+		if (tac.getDiscountRate() == 0){
+			return (flight.getFare() + place.getPrice());
+		}
+		else{
+			
+			return tac.getDiscountRate() * (flight.getFare() + place.getPrice());
+		}
+		
+>>>>>>> 675b34ceda30cb30edb7a6450788d4caec52e75d
 	}
 
 	public double calculateCancellationFee(TermsAndConditions tac){
