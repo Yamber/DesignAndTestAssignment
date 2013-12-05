@@ -33,8 +33,15 @@ public class Plane {
 		places.add(place);
 	}
 	
-	public Place getSpace(int i){
-		return places.get(i);
+	public Place getSpace(String seatNo){
+		for(Place place: places){
+			if(place.getPlaceNo().equals(seatNo)){
+				return place;
+			}
+		}
+		return null;
 	}
+	
+	
 
 }
