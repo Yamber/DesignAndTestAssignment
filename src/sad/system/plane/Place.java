@@ -2,10 +2,20 @@ package sad.system.plane;
 
 public abstract class Place {
 	
+	protected String placeNo;
 	protected boolean vacant;
 	protected boolean checkIn;
 	protected double price;
 	protected Plane plane;
+	
+	public Place(String placeNo, double price, Plane plane) {
+		super();
+		this.placeNo = placeNo;
+		this.vacant = true;
+		this.checkIn = false;
+		this.price = price;
+		this.plane = plane;
+	}
 
 	public boolean isVacant() {
 		return vacant;
@@ -39,6 +49,14 @@ public abstract class Place {
 		this.plane = plane;
 	}
 
+	public String getPlaceNo() {
+		return placeNo;
+	}
+
+	public void setPlaceNo(String placeNo) {
+		this.placeNo = placeNo;
+	}
+
 	public void checkIn(){
 		setCheckIn(true);
 	}
@@ -46,4 +64,11 @@ public abstract class Place {
 	public void cancelCheckIn(){
 		setCheckIn(false);
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		Place p = (Place) o;
+		return placeNo.equals(p.getPlaceNo());
+	}
+	
 }

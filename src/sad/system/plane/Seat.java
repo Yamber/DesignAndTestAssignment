@@ -3,11 +3,8 @@ package sad.system.plane;
 public class Seat extends Place {
 	private String seatNumber;
 	
-	public Seat(String seatNumber, Plane plane){
-		this.seatNumber = seatNumber;
-		this.plane = plane;
-		vacant = true;
-		checkIn = false;
+	public Seat(String seatNumber, double price, Plane plane){
+		super(seatNumber, price, plane);
 	}
 
 	public String getSeatNumber() {
@@ -17,6 +14,5 @@ public class Seat extends Place {
 	public void setSeatNumber(String seatNumber) {
 		this.seatNumber = seatNumber;
 	}
-	
 	
 }

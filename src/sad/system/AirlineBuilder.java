@@ -37,8 +37,8 @@ public class AirlineBuilder {
 				a_cal.set(Calendar.DAY_OF_YEAR, ((339+i)%365)+2);
 				a_cal.set(Calendar.YEAR, year);
 			}else{
-				departLocation = "WAT";
-				arriveLocation = "KIX";
+				departLocation = "KIX";
+				arriveLocation = "WAT";
 				d_cal.set(Calendar.DAY_OF_YEAR, ((339+i)%365)+1);
 				d_cal.set(Calendar.YEAR, year);
 				a_cal.set(Calendar.DAY_OF_YEAR, ((339+i)%365)+1);

@@ -33,8 +33,12 @@ import sad.system.Ticket;
 import sad.system.customer.Customer;
 import sad.system.customer.PersonalCustomer;
 import sad.system.plane.Place;
+import sad.system.plane.Seat;
 
 import com.toedter.calendar.JDateChooser;
+
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
 
 public class CustomerGui extends JFrame {
 
@@ -223,6 +227,25 @@ public class CustomerGui extends JFrame {
 		menuBar.setBounds(0, 0, 605, 21);
 		contentPane.add(menuBar);
 		
+		JMenu mnTicket = new JMenu("Ticket");
+		menuBar.add(mnTicket);
+		
+		JMenuItem mntmShowTickets = new JMenuItem("Show Tickets");
+		mntmShowTickets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showTicket();
+			}
+		});
+		mnTicket.add(mntmShowTickets);
+		
+		JMenuItem mntmCancelTickets = new JMenuItem("Cancel Tickets");
+		mntmCancelTickets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cancelTicket();
+			}
+		});
+		mnTicket.add(mntmCancelTickets);
+		
 		JButton btnBook = new JButton("Book Selected Flight");
 		btnBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -263,6 +286,7 @@ public class CustomerGui extends JFrame {
 			double price = airline.calculateFare(tac, f, place);
 			if(payment(price)){
 				Ticket ticket = airline.issueTicket(f, place, tac, customer);
+				System.out.println(ticket.getTicketNo());
 			} else {
 				throw new CancelOperationException("Payment wasn't verified.");
 			}
@@ -278,16 +302,59 @@ public class CustomerGui extends JFrame {
 	}
 	
 	private Place chooseSeat(List<Place> places){
-		return places.get(0);
+		int num = places.size();
+		String message = "";
+		for(int i = 0; i < num; i++){
+			if(i % 4 == 0){
+				message += "\n";
+			}
+			Place p = places.get(i);
+			message += (p.isVacant())? places.get(i).getPlaceNo() + " \t": "-- \t";
+		}
+		
+		String seatNo = (JOptionPane.showInputDialog(this, message,
+				"Choose terms and condition", JOptionPane.PLAIN_MESSAGE));
+		int index = places.indexOf(new Seat(seatNo, 0, null));
+		return places.get(index);
 	}
 	
 	private TermsAndConditions chooseTac(List<TermsAndConditions> tacs){
-		return tacs.get(0);
+		int num = tacs.size();
+		Object[] options = new Object[num];
+		String message = "";
+		for(int i = 0; i < num; i++){
+			options[i] = i;
+			message += "Option" + i + "\n" + tacs.get(i).toString() + "\n";
+		}
+		int ch = (Integer)(JOptionPane.showInputDialog(this, message,
+				"Choose terms and condition", JOptionPane.PLAIN_MESSAGE, null, options, "1"));
+		return tacs.get(ch);
 	}
 	
 	private boolean payment(double price){
-		return true;
+		return JOptionPane.showConfirmDialog(this, "Do you pay €"+price+" for this ticket?",
+				"Payment Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0;
 	}
 	
+	private void showTicket(){
+		List<Ticket> tickets = customer.getTick();
+		String message = "";
+		for(int i = 0; i < tickets.size(); i++){
+			message += tickets.get(i).toString() + "\n";
+		}
+		JOptionPane.showMessageDialog(this, message, "Tickets", JOptionPane.INFORMATION_MESSAGE);
+	}
 	
+	private void cancelTicket(){
+		String input = JOptionPane.showInputDialog("Enter Ticket Number");
+		int index = airline.getTickets().indexOf(new Ticket(input));
+		if (index >= 0){
+			Ticket ticket = airline.getTickets().get(index);
+			if(ticket.isCancellable()){
+				if(payment(ticket.getTac().getAdministrativeFee())){
+					airline.cancelTicket(input);
+				}
+			}
+		}
+	}
 }

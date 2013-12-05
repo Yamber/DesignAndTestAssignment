@@ -10,8 +10,8 @@ public class PlaneBuilder {
 		Plane plane = new Plane(planeNumber ++);
 		List<Place> seats = new LinkedList<>();
 		for(int i=1; i <= 3; i++){
-			for(int j=1; i<=4; i++){
-				Seat seat = new Seat(""+(i*10+j), plane);
+			for(int j=1; j<=4; j++){
+				Seat seat = new Seat(""+(i*10+j), 0.0, plane);
 				seats.add(seat);
 			}
 		}

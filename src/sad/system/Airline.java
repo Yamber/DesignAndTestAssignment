@@ -98,7 +98,7 @@ public class Airline {
 	}
 
 	public double calculateFare(TermsAndConditions tac, Flight flight, Place place){
-		return tac.getDiscountRate() * (flight.getFare() + place.getPrice());
+		return flight.getFare() - tac.getDiscountRate() * (flight.getFare() + place.getPrice());
 	}
 
 	public double calculateCancellationFee(TermsAndConditions tac){
@@ -108,6 +108,7 @@ public class Airline {
 	public Ticket issueTicket(Flight flight, Place place, TermsAndConditions tac, Customer customer){
 		//TODO no constructor defined, need to define.
 		Ticket ticket = new Ticket(calculateFare(tac, flight, place), this, customer, tac, flight, place);
+		place.setVacant(false);
 		tickets.add(ticket);
 		customer.addTicket(ticket);
 		return ticket;
@@ -115,9 +116,11 @@ public class Airline {
 	
 	public void cancelTicket(String ticketNumber){
 		for(Ticket ticket: tickets){
-			if(ticket.getTicketNo() == ticketNumber){
+			if(ticket.getTicketNo().equals(ticketNumber)){
 				ticket.getPlace().cancelCheckIn();
+				ticket.getPlace().setVacant(true);
 				ticket.getFlight().getTickets().remove(ticket);
+				ticket.getCust().getTick().remove(ticket);
 				tickets.remove(ticket);
 				break;
 			}

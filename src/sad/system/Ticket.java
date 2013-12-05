@@ -1,5 +1,8 @@
 package sad.system;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
 import sad.system.customer.Customer;
 import sad.system.plane.Place;
 
@@ -13,10 +16,22 @@ public class Ticket {
 	private Flight flight;
 	private Place place;
 	
+	public Ticket(){
+	}
 	
+	public Ticket(String ticketNo){
+		this.ticketNo = ticketNo;
+	}
+
 	public Ticket(double price, Airline air, Customer customer,
 			TermsAndConditions tac, Flight flight, Place place) {
 		super();
+		try {
+			int id = SecureRandom.getInstance("SHA1PRNG").nextInt(Integer.MAX_VALUE);
+			ticketNo = "WA" + getZeros(id) + id;
+		} catch (NoSuchAlgorithmException e) {
+			ticketNo = "ERROR TICKET NUMBER";
+		}
 		this.price = price;
 		this.air = air;
 		this.customer = customer;
@@ -89,6 +104,33 @@ public class Ticket {
 		setPlace(place);
 		setFlight(flight);
 		setTac(tac);
+	}
+	
+	public String toString(){
+		return "Ticket No: " + ticketNo + "\nFlight: \n" + flight.toString() + "\n Terms and Conditions\n" + tac.toString();
+	}
+	
+	public boolean equals(Object o){
+		Ticket t = (Ticket) o;
+		return t.getTicketNo().equals(ticketNo);
+	}
+	
+	private String getZeros(int i){
+		int n = numOfZeros(i);
+		String rt = "";
+		for(int j = 0; j < 9-n; j++){
+			rt += "0";
+		}
+		return rt;
+	}
+	
+	private int numOfZeros(int i){
+		int r = i / 10;
+		if(r >0){
+			return 1 + numOfZeros(r);
+		}else{
+			return 0;
+		}
 	}
 	
 

@@ -47,6 +47,19 @@ public class TermsAndConditions {
 		this.refoundRate = refoundRate;
 	}
 	
+	public String toString(){
+		return "Cancellable " + booleanToYesNo(cancellable) +
+				"\nDiscount Rate " + doubleToPercentage(discountRate) +
+				"\nAdministrative Fee for Cancel and Changing " + administrativeFee;
+	}
+	
+	private String booleanToYesNo(boolean b){
+		return (b)? "yes": "no";
+	}
+	
+	private String doubleToPercentage(double d){
+		return ((int) (d * 100)) + "%";
+	}
 	
 	
 }
