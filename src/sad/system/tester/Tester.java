@@ -60,9 +60,9 @@ public void setUp(){
 	planeB = PlaneBuilder.SmallPlaneBuilder();
 	planeC= PlaneBuilder.SmallPlaneBuilder();
 	
-	seat1 = new Seat("A3", planeA);
-	seat2 = new Seat("J8", planeB);
-	seat3 = new Seat("J7", planeC);
+	seat1 = new Seat("A3", 0, planeA);
+	seat2 = new Seat("J8", 0, planeB);
+	seat3 = new Seat("J7", 0, planeC);
 		
 	tac1 = new TermsAndConditions(false, 0.0, 1.0, 0.0);
 	tac2 = new TermsAndConditions(true, 0.4, 1.0, 500);
