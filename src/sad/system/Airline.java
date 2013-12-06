@@ -89,16 +89,15 @@ public class Airline {
 		return list;
 	}
 	
-	//TODO chooseFlight(Flight flight) //why return Ticket?
-	
 	public void storeTicket(Ticket ticket){
 		tickets.add(ticket);
 		ticket.getFlight().getTickets().add(ticket);
-		//TODO how customer store ticket?
+		ticket.getCust().addTicket(ticket);
 	}
 
 	public double calculateFare(TermsAndConditions tac, Flight flight, Place place){
-		return flight.getFare() - tac.getDiscountRate() * (flight.getFare() + place.getPrice());
+		double fare = flight.getFare() + place.getPrice();
+		return (fare) - tac.getDiscountRate() * (fare);
 	}
 
 	public double calculateCancellationFee(TermsAndConditions tac){
@@ -106,11 +105,9 @@ public class Airline {
 	}
 	
 	public Ticket issueTicket(Flight flight, Place place, TermsAndConditions tac, Customer customer){
-		//TODO no constructor defined, need to define.
 		Ticket ticket = new Ticket(calculateFare(tac, flight, place), this, customer, tac, flight, place);
 		place.setVacant(false);
-		tickets.add(ticket);
-		customer.addTicket(ticket);
+		storeTicket(ticket);
 		return ticket;
 	}
 	

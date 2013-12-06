@@ -3,6 +3,8 @@ package sad.system;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+import org.junit.Test;
+
 import sad.system.customer.Customer;
 import sad.system.plane.Place;
 
@@ -133,5 +135,4 @@ public class Ticket {
 		}
 	}
 	
-
 }
