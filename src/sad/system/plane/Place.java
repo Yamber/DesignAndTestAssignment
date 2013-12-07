@@ -6,7 +6,6 @@ public abstract class Place {
 	protected boolean vacant;
 	protected boolean checkIn;
 	protected double price;
-	protected Plane plane;
 	
 	public Place(String placeNo, double price, Plane plane) {
 		super();
@@ -14,7 +13,7 @@ public abstract class Place {
 		this.vacant = true;
 		this.checkIn = false;
 		this.price = price;
-		this.plane = plane;
+		plane.getPlaces().add(this);
 	}
 
 	public boolean isVacant() {
@@ -41,14 +40,6 @@ public abstract class Place {
 		this.checkIn = checkIn;
 	}
 	
-	public Plane getPlane() {
-		return plane;
-	}
-
-	public void setPlane(Plane plane) {
-		this.plane = plane;
-	}
-
 	public String getPlaceNo() {
 		return placeNo;
 	}

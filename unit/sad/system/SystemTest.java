@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sad.system.customer.PersonalCustomer;
+import sad.system.plane.Place;
 import sad.system.plane.Plane;
 import sad.system.plane.PlaneBuilder;
 import sad.system.plane.Seat;
@@ -157,6 +158,17 @@ public class SystemTest {
 		airline.cancelTicket(tickNo);
 		assertTrue(ticks.get(0) != tickA);
 		assertTrue(ticks.get(0) == tickB);
+	}
+	
+	@Test
+	public void chooseFlightTest(){
+		try {
+			List<Place> places = airline.chooseFlight(flightC);
+			assertTrue(places.contains(seat3));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
