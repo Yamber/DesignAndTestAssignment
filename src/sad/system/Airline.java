@@ -76,9 +76,10 @@ public class Airline {
 	}
 	
 	public List<Flight> searchFlights(String departLocation, String arriveLocation, Calendar departTime, int diff){
-		System.out.println("Seaching flight: " + departLocation + arriveLocation + departTime);
+		System.out.println("Seaching flight: " + departLocation + arriveLocation + departTime.getTime());
 		List<Flight> list = new LinkedList<>();
 		for(Flight f: flights){
+			System.out.println(f.toString());
 			if(f.getDepartLocation().equals(departLocation) && f.getArriveLocation().equals(arriveLocation) 
 					&& f.getDepartTime().get(Calendar.YEAR) == departTime.get(Calendar.YEAR)
 					&& Math.abs(f.getDepartTime().get(Calendar.DAY_OF_YEAR) - departTime.get(Calendar.DAY_OF_YEAR)) <= diff){

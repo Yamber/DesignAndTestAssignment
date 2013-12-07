@@ -1,6 +1,6 @@
 package sad.system;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sad.system.customer.PersonalCustomer;
-import sad.system.plane.Place;
 import sad.system.plane.Plane;
 import sad.system.plane.PlaneBuilder;
 import sad.system.plane.Seat;
@@ -74,12 +73,18 @@ public class SystemTest {
 		Calendar d_cal3 = Calendar.getInstance();
 		Calendar a_cal3 = Calendar.getInstance();
 		
-		d_cal1.set(134, 2013);
-		a_cal1.set(145, 2013);
-		d_cal2.set(345, 2013);
-		a_cal2.set(2, 2014);
-		d_cal3.set(15, 2014);
-		a_cal3.set(56, 2014);
+		d_cal1.set(Calendar.YEAR, 2013);
+		d_cal1.set(Calendar.DAY_OF_YEAR, 134);
+		a_cal1.set(Calendar.YEAR, 2013);
+		a_cal1.set(Calendar.DAY_OF_YEAR, 137);
+		d_cal2.set(Calendar.YEAR, 2013);
+		d_cal2.set(Calendar.DAY_OF_YEAR, 345);
+		a_cal2.set(Calendar.YEAR, 2014);
+		a_cal2.set(Calendar.DAY_OF_YEAR, 2);
+		d_cal3.set(Calendar.YEAR, 2014);
+		d_cal3.set(Calendar.DAY_OF_YEAR, 15);
+		a_cal3.set(Calendar.YEAR, 2014);
+		a_cal3.set(Calendar.DAY_OF_YEAR, 56);
 		
 		flightA = new Flight("WA134", "WAT", "KIX", d_cal1, a_cal2, 1500, planeA, new LinkedList<Ticket>());
 		flightB = new Flight("WA456", "DUB", "LON", d_cal2, a_cal2, 125, planeB, new LinkedList<Ticket>());
@@ -89,11 +94,15 @@ public class SystemTest {
 		tickB = new Ticket(125, airline, custB, tac2, flightB, seat2);
 		tickC = new Ticket(980, airline, custC, tac3, flightC, seat3);
 		
+		ticks = new LinkedList<Ticket>();
+		
 		ticks.add(tickA);
 		ticks.add(tickB);
 		ticks.add(tickC);
 		
 		airline = new Airline();
+		
+		flights = new LinkedList<>();
 		
 		flights.add(flightA);
 		flights.add(flightB);
@@ -107,15 +116,10 @@ public class SystemTest {
 	@Test
 	public void listFlights(){
 		Calendar d_cal = Calendar.getInstance();
-		d_cal.set(132,2013);
-		List <Flight> flights = airline.searchFlights("WAT", "KIX", d_cal, 0);
-		boolean found = false;
-		for (Flight f : flights){
-			if (f == flightA){
-				found = true;
-				break;
-			}
-		}
+		d_cal.set(Calendar.YEAR,2013);
+		d_cal.set(Calendar.DAY_OF_YEAR,134);
+		List <Flight> results = airline.searchFlights("WAT", "KIX", d_cal, 2);
+		boolean found = (results.size() > 0)? true: false;
 		assertTrue(found);
 	}
 	
@@ -125,8 +129,8 @@ public class SystemTest {
 		double fare2 = airline.calculateFare(tac2, flightB, seat2);
 		double fare3 = airline.calculateFare(tac3, flightC, seat3);
 		assertTrue(fare1 == 1500.0);
-		assertTrue(fare2 == 124.5);
-		assertTrue(fare3 == 974.12);
+		assertTrue(fare2 == 75);
+		assertTrue(fare3 == 392);
 	}
 
 	@Test
@@ -134,7 +138,7 @@ public class SystemTest {
 		Ticket ticD = new Ticket(1500, airline, custA, tac2, flightC, seat1);
 		airline.storeTicket(ticD);
 	    List<Ticket> tickets = airline.getTickets();
-		assertTrue(ticD == tickets.get(3));
+		assertTrue(tickets.get(3).equals(ticD));
 	}
 	
 	@Test
