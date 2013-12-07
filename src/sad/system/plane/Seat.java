@@ -5,6 +5,7 @@ public class Seat extends Place {
 	
 	public Seat(String seatNumber, double price, Plane plane){
 		super(seatNumber, price, plane);
+		price = 0;
 	}
 
 	public String getSeatNumber() {

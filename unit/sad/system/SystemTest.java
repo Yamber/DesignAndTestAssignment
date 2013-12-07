@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sad.system.customer.PersonalCustomer;
+import sad.system.plane.Place;
 import sad.system.plane.Plane;
 import sad.system.plane.PlaneBuilder;
 import sad.system.plane.Seat;
@@ -27,6 +28,8 @@ public class SystemTest {
 	private Ticket tickA;
 	private Ticket tickB;
 	private Ticket tickC;
+	
+	private List<Ticket> ticks;
 
 	private PersonalCustomer custA;
 	private PersonalCustomer custB;
@@ -64,11 +67,6 @@ public class SystemTest {
 		tac2 = new TermsAndConditions(true, 0.4, 1.0, 500);
 		tac3 = new TermsAndConditions(false, 0.6, 0.0, 0.0);
 		
-		
-		tickA = new Ticket(1500, airline, custA, tac1, flightA, seat1);
-		tickB = new Ticket(125, airline, custB, tac2, flightB, seat2);
-		tickC = new Ticket(980, airline, custC, tac3, flightC, seat3);
-		
 		Calendar d_cal1 = Calendar.getInstance();
 		Calendar a_cal1 = Calendar.getInstance();
 		Calendar d_cal2 = Calendar.getInstance();
@@ -87,6 +85,14 @@ public class SystemTest {
 		flightB = new Flight("WA456", "DUB", "LON", d_cal2, a_cal2, 125, planeB, new LinkedList<Ticket>());
 		flightC = new Flight("WA934", "PAR", "BOS", d_cal3, a_cal3, 980, planeC, new LinkedList<Ticket>());
 		
+		tickA = new Ticket(1500, airline, custA, tac1, flightA, seat1);
+		tickB = new Ticket(125, airline, custB, tac2, flightB, seat2);
+		tickC = new Ticket(980, airline, custC, tac3, flightC, seat3);
+		
+		ticks.add(tickA);
+		ticks.add(tickB);
+		ticks.add(tickC);
+		
 		airline = new Airline();
 		
 		flights.add(flightA);
@@ -94,31 +100,59 @@ public class SystemTest {
 		flights.add(flightC);
 		
 		airline.setFlights(flights);
+		airline.setTick(ticks);
 	}
 	    
-    @Test
-	public void airlineVerifyTicket(){
-		
-		//TODO: After ticket is done
-	}
     
 	@Test
 	public void listFlights(){
 		Calendar d_cal = Calendar.getInstance();
 		d_cal.set(132,2013);
-		assertTrue((flightA, airline.searchFlights("WAT", "KIX", d_cal, 0) == flightA), true);
+		List <Flight> flights = airline.searchFlights("WAT", "KIX", d_cal, 0);
+		boolean found = false;
+		for (Flight f : flights){
+			if (f == flightA){
+				found = true;
+				break;
+			}
+		}
+		assertTrue(found);
 	}
 	
 	@Test
-	public void airlineCalculateFare(){
-		//assertEquals(airline.calculateFare(tac1, flightA, seat1), );
+	public void calculateFareTest(){
+		double fare1 = airline.calculateFare(tac1, flightA, seat1);
+		double fare2 = airline.calculateFare(tac2, flightB, seat2);
+		double fare3 = airline.calculateFare(tac3, flightC, seat3);
+		assertTrue(fare1 == 1500.0);
+		assertTrue(fare2 == 124.5);
+		assertTrue(fare3 == 974.12);
 	}
 
 	@Test
-	public void airlineCancellationFee(){
-		assertEquals(0.0, tac1.getAdministrativeFee());
-		assertEquals(500, tac2.getAdministrativeFee());
+	public void storeTicketTest(){
+		Ticket ticD = new Ticket(1500, airline, custA, tac2, flightC, seat1);
+		airline.storeTicket(ticD);
+	    List<Ticket> tickets = airline.getTickets();
+		assertTrue(ticD == tickets.get(3));
+	}
 	
+	@Test
+	public void cancellationFeeTest(){
+		double fee1 = tac1.getAdministrativeFee();
+		double fee2 = tac2.getAdministrativeFee();
+		tac3.setAdministrativeFee(230);
+		double fee3 = tac3.getAdministrativeFee();
+		assertTrue(fee1 == 0.0);
+		assertTrue(fee2 == 500);
+		assertTrue(fee3 == 230);
+	}
+	@Test
+	public void cancelTicketTest(){
+		String tickNo = tickA.getTicketNo();
+		airline.cancelTicket(tickNo);
+		assertTrue(ticks.get(0) != tickA);
+		assertTrue(ticks.get(0) == tickB);
 	}
 	
 	
